@@ -1,0 +1,200 @@
+<!--Statistics cards Starts-->
+<div class="row">
+    <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+        <div class="card gradient-blackberry">
+            <div class="card-content">
+                <div class="card-body pt-2 pb-1">
+                    <div class="media">
+                        <div class="media-body white text-left">
+                            <h3 class="font-large-1 mb-0">{{dash.total_year}} T</h3>
+                            <span>Total Annualy</span>
+                        </div>
+                        <div class="media-right white text-right">
+                            <i class="icon-graph font-large-1"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+        <div class="card gradient-ibiza-sunset">
+            <div class="card-content">
+                <div class="card-body pt-2 pb-1">
+                    <div class="media">
+                        <div class="media-body white text-left">
+                            <h3 class="font-large-1 mb-0">{{dash.total_month}} T</h3>
+                            <span>Total Monthly</span>
+                        </div>
+                        <div class="media-right white text-right">
+                            <i class="icon-graph font-large-1"></i>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+        <div class="card gradient-green-tea">
+            <div class="card-content">
+                <div class="card-body pt-2 pb-1">
+                    <div class="media">
+                        <div class="media-body white text-left">
+                            <h3 class="font-large-1 mb-0">{{dash.total_day}} T</h3>
+                            <span>Total Today</span>
+                        </div>
+                        <div class="media-right white text-right">
+                            <i class="icon-graph font-large-1"></i>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+<!--Statistics cards Ends-->
+
+<div class="row">
+    <div class="col-xl-6 col-lg-12 col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-3">Actions</h4>
+            </div>
+            <div class="card-content">
+                <table class="table table-responsive-sm text-center">
+                    <thead>
+                    <tr>
+                        <th>User ID</th>
+                        <th>Type</th>
+                        <th>Created At</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of todos">
+                        <td>{{item.account_id ? item.account_id : '-'}}</td>
+                        <td>{{item.type}}</td>
+                        <td>{{item.created_at * 1000 | date:'yyyy/MM/dd'}}</td>
+                        <td>
+                            <a class="btn btn-raised btn-round btn-sm" [class.btn-warning]="item.status=='todo'"
+                               [class.btn-success]="item.status=='done'"
+                               style="margin:0">{{item.status}}</a>
+                        </td>
+                        <td>
+                            <a class="info p-0" (click)="action(item)">
+                                <i class="ft-settings font-medium-3 mr-2"></i>
+                            </a>
+                        </td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-lg-12 col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-3">Support Messages</h4>
+            </div>
+            <div class="card-content">
+                <table class="table table-responsive-sm text-center">
+                    <thead>
+                    <tr>
+                        <th>Fullname</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Last Message</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of support;">
+                        <td>{{item.display_name}}</td>
+                        <td>Pending / Open</td>
+                        <td>{{item.updated_at * 1000 | date:'MMM d, h:mm a'}}</td>
+                        <td>{{item.last_message}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row" style="display:none" matchHeight="card">
+    <div class="col-xl-6 col-lg-12 col-12">
+        <div class="card gradient-blackberry">
+            <div class="card-content">
+                <div class="card-body">
+                    <h4 class="card-title white">Statistics</h4>
+                    <div class="p-2 text-center">
+                        <a class="white font-medium-1">Month</a>
+                        <a class="btn btn-raised btn-round bg-white mx-3 px-3">Week</a>
+                        <a class="white font-medium-1">Day</a>
+                    </div>
+                    <div class="my-3 text-center white">
+                        <a class="font-large-2 d-block mb-1">$ 78.89 <span class="ft-arrow-up font-large-2"></span></a>
+                        <span class="font-medium-1">Week2   +15.44</span>
+                    </div>
+                </div>
+                <div id="lineChart" class="height-250 lineChart lineChartShadow">
+                    <x-chartist class="" [data]="lineChart.data" [type]="lineChart.type" [options]="lineChart.options"
+                                [responsiveOptions]="lineChart.responsiveOptions" [events]="lineChart.events">
+                    </x-chartist>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-6 col-lg-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">New Users / Left Users</h4>
+            </div>
+            <div class="card-content">
+
+                <p class="font-medium-2 text-muted text-center">Hobbies</p>
+                <div id="bar-chart" class="height-250 BarChartShadow BarChart">
+                    <x-chartist class="" [data]="BarChart.data" [type]="BarChart.type" [options]="BarChart.options"
+                                [responsiveOptions]="BarChart.responsiveOptions" [events]="BarChart.events">
+                    </x-chartist>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col text-center">
+                            <span class="gradient-pomegranate d-block rounded-circle mx-auto mb-2"
+                                  style="width:10px; height:10px;"></span>
+                            <span class="font-large-1 d-block mb-2">48</span>
+                            <span>Sport</span>
+                        </div>
+                        <div class="col text-center">
+                            <span class="gradient-green-tea d-block rounded-circle mx-auto mb-2"
+                                  style="width:10px; height:10px;"></span>
+                            <span class="font-large-1 d-block mb-2">9</span>
+                            <span>Music</span>
+                        </div>
+                        <div class="col text-center">
+                            <span class="gradient-blackberry d-block rounded-circle mx-auto mb-2"
+                                  style="width:10px; height:10px;"></span>
+                            <span class="font-large-1 d-block mb-2">26</span>
+                            <span>Travel</span>
+                        </div>
+                        <div class="col text-center">
+                            <span class="gradient-ibiza-sunset d-block rounded-circle mx-auto mb-2"
+                                  style="width:10px; height:10px;"></span>
+                            <span class="font-large-1 d-block mb-2">17</span>
+                            <span>News</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

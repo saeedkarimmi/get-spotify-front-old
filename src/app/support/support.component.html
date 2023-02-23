@@ -1,0 +1,86 @@
+<div class="chat-application">
+    <div #contentOverlay class="content-overlay" (click)="onContentOverlay()"></div>
+    <div [perfectScrollbar] #chatSidebar class="chat-sidebar float-left d-none d-sm-none d-md-block d-lg-block">
+        <div class="chat-sidebar-content">
+            <div id="users-list" class="list-group position-relative">
+                <a class="list-group-item no-border" *ngFor="let item of items;"
+                   (click)="SetActive($event,item.id)">
+                        <span class="media">
+                          <span class="avatar avatar-md avatar-away">
+                            <img class="media-object d-flex mr-3 bg-primary height-50 rounded-circle"
+                                 src="/assets/img/avatar.jpg"
+                                 alt="Generic placeholder image">
+                            <i></i>
+                          </span>
+                          <div class="media-body  text-left">
+                            <h6 class="list-group-item-heading">{{item.display_name}}
+                                <span class="font-small-3 float-right primary">{{item.updated_at * 1000 | date:'MMM d, h:mm a'}}</span>
+                            </h6>
+                            <p class="list-group-item-text text-muted">
+                              <i class="font-small-2" [class.danger]="item.status == 1"
+                                 [class.success]="item.status != 1" [class.ft-circle]="item.status == 1"
+                                 [class.ft-check-circle]="item.status == 2"
+                                 [class.ft-check]="item.status == 3"></i> {{item.last_message}}</p>
+                          </div>
+                        </span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="chat-name p-2 bg-white">
+        <div class="media">
+            <span class="chat-app-sidebar-toggle ft-align-justify font-large-1 mr-2 d-none d-block d-sm-block d-md-none"
+                  (click)="onSidebarToggle()"></span>
+            <div class="media-body text-left">
+                <img src="/assets/img/avatar.jpg" width="37" class="rounded-circle mr-1" alt="avatar"/>
+                <span>{{ activeChatUser }}</span>
+                <span *ngIf="activeChatUserId" class="font-small-1 text-success"> / Account ID: {{ activeChatUserId }}</span>
+            </div>
+            <button *ngIf="activeChatstatus != 3" type="button"
+                    class="btn btn-raised gradient-ibiza-sunset white pull-right m-0" (click)="close()"
+                    [disabled]="disableInput">
+                <i class="fa ft-alert-triangle d-block d-xl-inline-block d-lg-none p-0"></i>
+                <span class="d-none d-lg-inline-block ml-1">Close Thread</span>
+            </button>
+        </div>
+    </div>
+    <section class="chat-app-window" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+        <div class="chats">
+            <div class="chats">
+                <div [ngClass]="[chat.chatClass]" *ngFor="let chat of chat">
+                    <div class="chat-avatar">
+                        <a class="avatar" data-toggle="tooltip" data-placement="[chat.avatar]" title=""
+                           data-original-title="">
+                            <img [src]="[chat.imagePath]" class="width-50" alt="avatar"/>
+                        </a>
+                    </div>
+                    <div class="chat-body">
+                        <div class="chat-content" *ngFor="let message of chat.messages">
+                            <p *ngIf="chat.messageType === 'text'">
+                                {{ message }}
+                                <span class="time">{{chat.time * 1000 | date:'MMM d, h:mm a'}}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <section class="chat-app-form bg-blue-grey bg-lighten-5">
+        <div class="chat-app-input row mt-2">
+            <fieldset class="form-group position-relative col-lg-10 col-8 m-0 px-3">
+                <input type="text" class="form-control" [(ngModel)]="reply" [disabled]="disableInput"
+                       (keyup.enter)="send()"
+                       placeholder="Type your message">
+            </fieldset>
+            <fieldset class="form-group position-relative has-icon-left col-lg-2 col-4 m-0 pl-0">
+                <button type="button" class="btn btn-raised px-4 gradient-pomegranate white" (click)="send()"
+                        [disabled]="disableInput">
+                    <i class="fa fa-paper-plane-o d-block d-xl-inline-block d-lg-none p-0"></i>
+                    <span class="d-none d-lg-inline-block ml-1">Send</span>
+                </button>
+            </fieldset>
+        </div>
+    </section>
+</div>

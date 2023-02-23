@@ -1,0 +1,15 @@
+## Angular ##
+# compiled output
+tmp
+
+# dependencies
+node_modules/
+bower_components
+
+# IDEs and editors
+.idea
+
+#System Files
+.DS_Store
+
+e2e/

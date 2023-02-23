@@ -1,0 +1,23 @@
+.chat-application {
+  .chat-app-form {
+    position: relative;
+    padding: 10px 10px;
+    overflow: hidden;
+
+    .form-group {
+      i.fa.fa-paper-plane-o {
+        padding: 0.25rem;
+      }
+
+    }
+  }
+}
+
+.chat-application .list-group-item-heading span {
+  font-size: 0.6rem !important;
+}
+
+.time {
+  display: block;
+  margin: 0 !important;
+}

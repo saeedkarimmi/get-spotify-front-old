@@ -1,0 +1,124 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+    <div class="col-6">
+        <div class="content-header">Accounts</div>
+        <p class="content-sub-header">List of getspotify accounts.</p>
+    </div>
+    <div class="col-6" style="text-align: right">
+        <a class="btn btn-raised gradient-ibiza-sunset white m-2 mr-auto" (click)="add()">Add New Account</a>
+        <a class="btn btn-raised gradient-purple-bliss white m-2 mr-auto" (click)="mass()">Send Mass Message</a>
+        <a class="btn btn-raised gradient-pomegranate white m-2 mr-auto" (click)="export()">Export List</a>
+    </div>
+</div>
+<section id="extended">
+    <div class="row">
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="basicInput">Search</label>
+                <input type="text" class="form-control" id="basicInput" placeholder="Id, Email, Fullname"
+                       [(ngModel)]="filter.search" (keyup)="filterList()">
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="mSelect">Master</label>
+                <select class="form-control" id="mSelect" [(ngModel)]="filter.master_id" (change)="filterList()">
+                    <option value="0">Select Master</option>
+                    <option *ngFor="let m of masters" [value]="m.id">{{m.email}}</option>
+                </select>
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="sSelect">Status</label>
+                <select class="form-control" id="sSelect" [(ngModel)]="filter.status" (change)="filterList()">
+                    <option value="-1">Select Status</option>
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                    <option value="2">Pending</option>
+                </select>
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="pSelect">Packages</label>
+                <select class="form-control" id="pSelect" [(ngModel)]="filter.package_id" (change)="filterList()">
+                    <option value="0">Select Package</option>
+                    <option *ngFor="let p of packages" [value]="p.id">{{p.name}}</option>
+                </select>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body" style="padding: 0">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                            <tr>
+                                <th (click)="changeSort('id')"># <i *ngIf="sortBy=='id'"
+                                                                    class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th (click)="changeSort('package_id')">Package <i *ngIf="sortBy=='package_id'"
+                                                                                  class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th (click)="changeSort('created_at')">Created At <i *ngIf="sortBy=='created_at'"
+                                                                                     class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th (click)="changeSort('expires_at')">Expires In <i *ngIf="sortBy=='expires_at'"
+                                                                                     class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th (click)="changeSort('status')">Status <i *ngIf="sortBy=='status'"
+                                                                             class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th (click)="changeSort('master_id')">Master <i *ngIf="sortBy=='master_id'"
+                                                                                class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th (click)="changeSort('email')">Email <i *ngIf="sortBy=='email'"
+                                                                           class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th>Password</th>
+                                <th (click)="changeSort('fullname')">Full Name <i *ngIf="sortBy=='fullname'"
+                                                                                  class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngIf="isLoading">
+                                <td colspan="10"><img
+                                        style="filter: drop-shadow(0 0 2px purple);margin: 5px 0;position: initial;"
+                                        src="assets/img/oval.svg" class="loading-icon"/></td>
+                            </tr>
+                            <tr *ngFor="let item of displayItems">
+                                <td>{{item.id}}</td>
+                                <td>{{getPackageName(item.package_id)}}</td>
+                                <td>{{item.created_at * 1000 | date:'yyyy/MM/dd'}}</td>
+                                <td>{{item.expires_at | date:'yyyy/MM/dd'}}</td>
+                                <td>
+                                    <a class="btn btn-raised btn-round btn-sm {{getStatusClass(item.status)}}"
+                                       style="margin:0">{{getStatusTitle(item.status)}}</a>
+                                </td>
+                                <td>{{getMasterName(item.master_id)}}</td>
+                                <td>{{item.email}}</td>
+                                <td>{{item.password}}</td>
+                                <td>{{item.fullname}}</td>
+                                <td>
+                                    <a class="info p-0" (click)="view(item.id)">
+                                        <i class="ft-user font-medium-3 mr-2"></i>
+                                    </a>
+                                    <a class="success p-0" (click)="edit(item.id)">
+                                        <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Extended Table Ends-->

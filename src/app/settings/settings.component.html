@@ -1,0 +1,18 @@
+<div class="row text-left">
+    <div class="col-6">
+        <div class="content-header">Settings</div>
+        <p class="content-sub-header">Getspotify settings</p>
+    </div>
+    <div class="col-6" style="text-align: right">
+        <a class="btn btn-raised gradient-ibiza-sunset white m-2 mr-auto" (click)="save()">Save Settings</a>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xl-12 col-lg-12 col-md-12 mb-1" *ngFor="let item of items">
+        <fieldset class="form-group">
+            <label>{{getTitle(item.key)}}</label>
+            <quill-editor [(ngModel)]="data[item.key]" [modules]="editorModulesConfig"
+                          [readOnly]="isLoading"></quill-editor>
+        </fieldset>
+    </div>
+</div>

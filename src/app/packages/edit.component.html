@@ -1,0 +1,47 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{title}} Package</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Name</label>
+                <input type="text" class="form-control" placeholder="Package name" [disabled]="isLoading"
+                       [(ngModel)]="data.name">
+            </fieldset>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Duration (Days)</label>
+                <input type="number" class="form-control" placeholder="e.g. 30" [disabled]="isLoading"
+                       [(ngModel)]="data.duration_days">
+            </fieldset>
+        </div>
+        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Price (Rials)</label>
+                <input type="number" class="form-control" placeholder="e.g. 500000" [disabled]="isLoading"
+                       [(ngModel)]="data.price">
+            </fieldset>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Info</label>
+                <quill-editor [(ngModel)]="data.info" [modules]="editorModulesConfig" [readOnly]="isLoading"></quill-editor>
+            </fieldset>
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary btn-raised" [disabled]="isLoading"
+            (click)="activeModal.close('Close click')">Close
+    </button>
+    <button type="button" class="btn btn-primary btn-raised" [disabled]="isLoading" (click)="save()">Save</button>
+</div>

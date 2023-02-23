@@ -1,0 +1,111 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+    <div class="col-4">
+        <div class="content-header">Payments</div>
+        <p class="content-sub-header">List of getspotify payments.</p>
+    </div>
+    <div class="col-4" style="text-align: center">
+        <div class="btn-group btn-group-justified btn-group-raised btn-round mt-2">
+            <a class="btn btn-outline-primary btn-round" [class.active]="filter.type == 1" (click)="changeType(1)">Income</a>
+            <a class="btn btn-outline-success btn-round" [class.active]="filter.type == -1"
+               (click)="changeType(-1)">All</a>
+            <a class="btn btn-outline-danger btn-round" [class.active]="filter.type == 2" (click)="changeType(2)">Expenses</a>
+        </div>
+    </div>
+    <div class="col-4" style="text-align: right">
+        <a class="btn btn-raised gradient-ibiza-sunset white m-2 mr-auto" (click)="add()">Add New Payment</a>
+        <a class="btn btn-raised gradient-pomegranate white m-2 mr-auto" (click)="export()">Export List</a>
+    </div>
+</div>
+<section id="extended">
+    <div class="row" *ngIf="filter.type != 2">
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="basicInput">Search</label>
+                <input type="text" class="form-control" id="basicInput" placeholder="UserID" [(ngModel)]="filter.search"
+                       (keyup)="filterList()">
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Status</label>
+                <select class="form-control" [(ngModel)]="filter.status" (change)="filterList()">
+                    <option value="1">Successful</option>
+                    <option value="2">Pending</option>
+                    <option value="3">Unsuccessful</option>
+                </select>
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Description</label>
+                <select class="form-control" [(ngModel)]="filter.description" (change)="filterList()">
+                    <option value="-1">All</option>
+                    <option value="1">Renewal</option>
+                    <option value="2">First Payment</option>
+                </select>
+            </fieldset>
+        </div>
+
+    </div>
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body" style="padding: 0">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                            <tr>
+                                <th (click)="changeSort('id')"># <i *ngIf="sortBy=='id'"
+                                                                    class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th (click)="changeSort('account_id')">User ID <i *ngIf="sortBy=='account_id'"
+                                                                                  class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th (click)="changeSort('created_at')">Created At <i *ngIf="sortBy=='created_at'"
+                                                                                     class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th (click)="changeSort('amount')">Amount (Rials) <i *ngIf="sortBy=='amount'"
+                                                                                     class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th>Description</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngIf="isLoading">
+                                <td colspan="6"><img
+                                        style="filter: drop-shadow(0 0 2px purple);margin: 5px 0;position: initial;"
+                                        src="assets/img/oval.svg" class="loading-icon"/></td>
+                            </tr>
+                            <tr *ngFor="let item of items" [class.highlight]="isByAdmin(item.data)">
+                                <td>{{item.id}}</td>
+                                <td>{{formatAccount(item)}}</td>
+                                <td>{{formatDate(item.created_at) | date:'yyyy/MM/dd'}}</td>
+                                <td [class.success]="item.amount > 0"
+                                    [class.danger]="item.amount <= 0">{{formatAmount(item.amount)}}</td>
+                                <td>{{formatDescription(item.data)}}</td>
+                                <td>
+                                    <a class="info p-0" (click)="view(item.id)">
+                                        <i class="ft-eye font-medium-3 mr-2"></i>
+                                    </a>
+                                    <a class="success p-0" *ngIf="isByAdmin(item.data)" (click)="edit(item.id)">
+                                        <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div style="text-align: center">
+                            <ngb-pagination (pageChange)="changePage()" style="display: inline-block;"
+                                            [pageSize]="meta.perPage" [collectionSize]="meta.totalCount" [(page)]="page"
+                                            [maxSize]="10" [rotate]="true" [ellipses]="false"
+                                            [boundaryLinks]="true"></ngb-pagination>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Extended Table Ends-->

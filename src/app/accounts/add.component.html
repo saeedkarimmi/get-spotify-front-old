@@ -1,0 +1,148 @@
+<div class="modal-header">
+    <h4 class="modal-title">{{title}} Account</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" placeholder="Email Address" [disabled]="isLoading"
+                       [(ngModel)]="data.email">
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Password</label>
+                <input type="text" class="form-control" placeholder="Password" [disabled]="isLoading"
+                       [(ngModel)]="data.password">
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Fullname</label>
+                <input type="text" class="form-control" placeholder="Fullname" [disabled]="isLoading"
+                       [(ngModel)]="data.fullname">
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Telegram</label>
+                <input type="text" class="form-control" placeholder="Telegram" [disabled]="isLoading"
+                       [(ngModel)]="data.telegram">
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Instagram</label>
+                <input type="text" class="form-control" placeholder="Instagram" [disabled]="isLoading"
+                       [(ngModel)]="data.instagram">
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Phone Number</label>
+                <input type="number" class="form-control" placeholder="989xxxxxxxx" [disabled]="isLoading"
+                       [(ngModel)]="data.phone">
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Package</label>
+                <select class="form-control" [(ngModel)]="data.package_id">
+                    <option value="0">Not Selected</option>
+                    <option *ngFor="let p of packages" [value]="p.id">{{p.name}}</option>
+                </select>
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Master</label>
+                <select class="form-control" [(ngModel)]="data.master_id">
+                    <option value="0">Not Selected</option>
+                    <option *ngFor="let m of masters" [disabled]="m.accounts_count >= 5"
+                            [value]="m.id">{{m.username + " / " + m.email + ' (' + m.accounts_count + '/5)'}}</option>
+                </select>
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Birthday</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="data.birthday"
+                           [disabled]="isLoading"
+                           ngbDatepicker
+                           #d3="ngbDatepicker">
+                    <div class="input-group-append">
+                        <div class="input-group-text" (click)="d3.toggle()">
+                            <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Created At</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="data.created_at"
+                           [disabled]="isLoading"
+                           ngbDatepicker
+                           #d1="ngbDatepicker">
+                    <div class="input-group-append">
+                        <div class="input-group-text" (click)="d1.toggle()">
+                            <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Expires At</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" [(ngModel)]="data.expires_at"
+                           [disabled]="isLoading"
+                           ngbDatepicker
+                           #d2="ngbDatepicker">
+                    <div class="input-group-append">
+                        <div class="input-group-text" (click)="d2.toggle()">
+                            <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Status</label>
+                <select class="form-control" [(ngModel)]="data.status">
+                    <option value="1">Active</option>
+                    <option value="0">Inactive</option>
+                    <option value="2">Pending</option>
+                </select>
+            </fieldset>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Notes</label>
+                <textarea rows="4" type="text" class="form-control" placeholder="Any note ..." [disabled]="isLoading"
+                          [(ngModel)]="data.note"></textarea>
+            </fieldset>
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary btn-raised" [disabled]="isLoading"
+            (click)="activeModal.close('Close click')">Close
+    </button>
+    <button type="button" class="btn btn-primary btn-raised" [disabled]="isLoading" (click)="save()">Save</button>
+</div>

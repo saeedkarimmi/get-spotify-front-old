@@ -1,0 +1,52 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+    <div class="col-6">
+        <div class="content-header">Packages</div>
+        <p class="content-sub-header">List of getspotify packages.</p>
+    </div>
+    <div class="col-6" style="text-align: right">
+        <a class="btn btn-raised gradient-ibiza-sunset white m-2 mr-auto" (click)="add()">Add New Package</a>
+    </div>
+</div>
+<section id="extended">
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body" style="padding: 0">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Duration (Days)</th>
+                                <th>Price (Rials)</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngIf="isLoading">
+                                <td colspan="5"><img
+                                        style="filter: drop-shadow(0 0 2px purple);margin: 5px 0;position: initial;"
+                                        src="assets/img/oval.svg" class="loading-icon"/></td>
+                            </tr>
+                            <tr *ngFor="let item of displayItems">
+                                <td>{{item.id}}</td>
+                                <td>{{item.name}}</td>
+                                <td>{{item.duration_days}}</td>
+                                <td>{{item.price}}</td>
+                                <td>
+                                    <a class="success p-0" (click)="edit(item.id)">
+                                        <i class="ft-edit-2 font-medium-3 mr-2"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Extended Table Ends-->

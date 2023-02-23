@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <h4 class="modal-title">Edit Master</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Email</label>
+                <input type="text" class="form-control" placeholder="Email Address" [disabled]="isLoading"
+                       [(ngModel)]="data.email">
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control" placeholder="Username" [disabled]="isLoading"
+                       [(ngModel)]="data.username">
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Password</label>
+                <input type="text" class="form-control" placeholder="Password" [disabled]="isLoading"
+                       [(ngModel)]="data.password">
+            </fieldset>
+        </div>
+
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Due Date</label>
+                <div class="input-group">
+                    <input class="form-control" placeholder="yyyy-mm-dd" name="dp" [(ngModel)]="data.due_date" [disabled]="isLoading"
+                           ngbDatepicker
+                           #d2="ngbDatepicker">
+                    <div class="input-group-append">
+                        <div class="input-group-text" (click)="d2.toggle()">
+                            <i class="fa fa-calendar" style="cursor: pointer;"></i>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Notes</label>
+                <textarea rows="4" type="text" class="form-control" placeholder="Any note ..." [disabled]="isLoading"
+                          [(ngModel)]="data.note"></textarea>
+            </fieldset>
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary btn-raised" [disabled]="isLoading" (click)="activeModal.close('Close click')">Close</button>
+    <button type="button" class="btn btn-primary btn-raised" [disabled]="isLoading" (click)="save()">Save</button>
+</div>

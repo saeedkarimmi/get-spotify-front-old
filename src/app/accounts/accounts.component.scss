@@ -1,0 +1,36 @@
+.modal-xl .modal-lg {
+  max-width: 80%;
+}
+
+.close:not(:disabled):not(.disabled):hover, .close:not(:disabled):not(.disabled):focus {
+  outline: none;
+}
+
+.chat-application .chat-app-window, .chat-application .chat-app-form {
+  margin-left: 0 !important;
+}
+
+.chat-application .chat-app-window {
+  background: #f5f5f5;
+}
+
+.chat-application .chats .chat-left .chat-content {
+  background-color: #ffb092 !important;
+}
+
+.chats {
+  direction: rtl;
+  font-family: tahoma;
+}
+
+chat-application {
+  min-height: 400px;
+}
+
+.chat-application .chats .chat-body .chat-content {
+  background-color: #029200;
+}
+
+.chat-application .chats .time {
+  color: #ffffff;
+}

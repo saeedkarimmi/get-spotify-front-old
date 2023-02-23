@@ -1,0 +1,182 @@
+<div class="modal-header">
+    <h4 class="modal-title">View Account</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <ngb-tabset>
+        <ngb-tab title="Account Data">
+            <ng-template ngbTabContent>
+                <div class="row" *ngIf="data">
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <label class="text-bold-700">Email</label>
+                        <div>{{data.email}}</div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <label class="text-bold-700">Password</label>
+                        <div>{{data.password}}</div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <label class="text-bold-700">Fullname</label>
+                        <div>{{data.fullname}}</div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <label class="text-bold-700">Telegram</label>
+                        <div>{{data.telegram}}</div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <label class="text-bold-700">Instagram</label>
+                        <div>{{data.instagram}}</div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <label class="text-bold-700">Phone Number</label>
+                        <div>{{data.phone}}</div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <label class="text-bold-700">Package</label>
+                        <div>{{this.getPackageName()}}</div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <label class="text-bold-700">Master</label>
+                        <div>{{this.getMasterName()}}</div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <label class="text-bold-700">Birthday</label>
+                        <div>{{data.birthday | date:'yyyy/MM/dd'}}</div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <label class="text-bold-700">Created At</label>
+                        <div>{{data.created_at * 1000 | date:'yyyy/MM/dd'}}</div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <label class="text-bold-700">Expires At</label>
+                        <div>{{data.expires_at | date:'yyyy/MM/dd'}}</div>
+                    </div>
+                    <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                        <label class="text-bold-700">Status</label>
+                        <div>{{this.getStatusName()}}</div>
+                    </div>
+                    <div class="col-xl-12 col-lg-12 col-md-12 mt-2">
+                        <fieldset class="form-group">
+                            <label class="text-bold-700">Notes</label>
+                            <textarea rows="4" type="text" class="form-control"
+                                      [disabled]="true"
+                                      [(ngModel)]="data.note"></textarea>
+                        </fieldset>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Payments">
+            <ng-template ngbTabContent>
+                <table class="table table-responsive-md text-center table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Status</th>
+                        <th>Created At</th>
+                        <th>Amount (Rials)</th>
+                        <th>Reference Code</th>
+                        <th>Description</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let item of payments">
+                        <td>{{item.id}}</td>
+                        <td><a class="btn btn-raised btn-round btn-sm {{getStatusClass(item.status)}}"
+                               style="margin:0">{{formatStatus(item.status)}}</a></td>
+                        <td>{{item.created_at * 1000 | date:'yyyy/MM/dd HH:mm:ss'}}</td>
+                        <td>{{formatAmount(item.amount)}}</td>
+                        <td>{{item.reference_code}}</td>
+                        <td>{{formatDescription(item.data)}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Messages">
+            <ng-template ngbTabContent>
+                <p *ngIf="!data.chat_id" class="text-danger">This account is not connected with her/his telegram!</p>
+                <div *ngIf="data.chat_id" class="chat-application">
+
+                    <section class="chat-app-window" #scrollMe [scrollTop]="scrollMe.scrollHeight">
+                        <div class="chats">
+                            <div class="chats">
+                                <div class="chat" [class.chat-left]="isFromUser(chat)" *ngFor="let chat of messages">
+                                    <div class="chat-body m-0">
+                                        <div class="chat-content m-0 mt-2">
+                                            <p>
+                                                <span [innerHTML]="formatMessage(chat)"></span>
+                                                <br>
+                                                <span class="time">{{chat.created_at * 1000 | date:'MMM d, h:mm a'}}</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </section>
+                    <section class="chat-app-form bg-blue-grey bg-lighten-5">
+                        <div class="chat-app-input row mt-2">
+                            <fieldset class="form-group position-relative col-lg-10 col-8 m-0 px-3">
+                                <input type="text" class="form-control" [(ngModel)]="reply" [disabled]="disableInput"
+                                       (keyup.enter)="sendMessage()"
+                                       placeholder="Type your message">
+                            </fieldset>
+                            <fieldset class="form-group position-relative has-icon-left col-lg-2 col-4 m-0 pl-0">
+                                <button type="button" class="btn btn-raised px-4 gradient-pomegranate white"
+                                        (click)="sendMessage()"
+                                        [disabled]="disableInput">
+                                    <i class="fa fa-paper-plane-o d-block d-xl-inline-block d-lg-none p-0"></i>
+                                    <span class="d-none d-lg-inline-block ml-1">Send</span>
+                                </button>
+                            </fieldset>
+                        </div>
+                    </section>
+                </div>
+            </ng-template>
+        </ngb-tab>
+        <ngb-tab title="Actions">
+            <ng-template ngbTabContent>
+                <div class="row">
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                        <button type="button" class="btn btn-raised btn-block btn-danger"
+                                (click)="kick()"
+                                [disabled]="disableInput">
+                            <span class="d-none d-lg-inline-block ml-1">Kick From Master</span>
+                        </button>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                        <button type="button" class="btn btn-raised btn-block btn-success"
+                                (click)="ActiveAccount()"
+                                [disabled]="disableInput">
+                            <span class="d-none d-lg-inline-block ml-1">Active Account</span>
+                        </button>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                        <button type="button" class="btn btn-raised btn-block btn-info"
+                                (click)="sendReminderMessage()"
+                                [disabled]="disableInput">
+                            <span class="d-none d-lg-inline-block ml-1">Send Reminder Message</span>
+                        </button>
+                    </div>
+                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                        <button type="button" class="btn btn-raised btn-block btn-info"
+                                (click)="sendPaymentLink()"
+                                [disabled]="disableInput">
+                            <span class="d-none d-lg-inline-block ml-1">Send Payment Link</span>
+                        </button>
+                    </div>
+                </div>
+            </ng-template>
+        </ngb-tab>
+    </ngb-tabset>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary btn-raised" [disabled]="isLoading"
+            (click)="activeModal.close('Close click')">Close
+    </button>
+</div>

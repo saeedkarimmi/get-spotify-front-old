@@ -1,0 +1,36 @@
+<div class="modal-header">
+    <h4 class="modal-title">Send Mass Message</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label class="text-bold-700">Filtered Accounts Count</label>
+                <div class="text-success">{{accounts.length}}</div>
+            </fieldset>
+        </div>
+        <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label class="text-bold-700">Telegram-Connected Accounts Count</label>
+                <div class="text-success">{{chat_ids.length}}</div>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label>Message</label>
+                <quill-editor [(ngModel)]="reply" [modules]="editorModulesConfig"></quill-editor>
+            </fieldset>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-secondary btn-raised" [disabled]="isLoading"
+            (click)="activeModal.close('Close click')">Close
+    </button>
+    <button type="button" class="btn btn-primary btn-raised" [disabled]="isLoading" (click)="send()">Send</button>
+</div>

@@ -1,0 +1,83 @@
+<!--Extended Table starts-->
+<div class="row text-left">
+    <div class="col-6">
+        <div class="content-header">Todos</div>
+        <p class="content-sub-header">List of admin todos.</p>
+    </div>
+</div>
+<section id="extended">
+    <div class="row">
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="basicInput">Search</label>
+                <input type="text" class="form-control" id="basicInput" placeholder="Account Id, Fullname"
+                       [(ngModel)]="filter.search" (keyup)="filterList()">
+            </fieldset>
+        </div>
+        <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+            <fieldset class="form-group">
+                <label for="sSelect">Type</label>
+                <select class="form-control" id="sSelect" [(ngModel)]="filter.type" (change)="filterList()">
+                    <option value="0">All</option>
+                    <option value="kick">Kick Account</option>
+                    <option value="late payment">Late Payment</option>
+                    <option value="first payment">First Payment</option>
+                    <option value="registeration">Registeration</option>
+                    <option value="payment">Payment</option>
+                </select>
+            </fieldset>
+        </div>
+    </div>
+    <div class="row text-left">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-content">
+                    <div class="card-body" style="padding: 0">
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                            <tr>
+                                <th>Account ID</th>
+                                <th>Fullname</th>
+                                <th (click)="changeSort('created_at')">Created At <i *ngIf="sortBy=='created_at'"
+                                                                                     class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th (click)="changeSort('type')">Type <i *ngIf="sortBy=='type'"
+                                                                         class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th (click)="changeSort('status')">Status <i *ngIf="sortBy=='status'"
+                                                                             class="ft-chevron-{{sort == 'asc'? 'down':'up'}}"></i>
+                                </th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr *ngIf="isLoading">
+                                <td colspan="6"><img
+                                        style="filter: drop-shadow(0 0 2px purple);margin: 5px 0;position: initial;"
+                                        src="assets/img/oval.svg" class="loading-icon"/></td>
+                            </tr>
+                            <tr *ngFor="let item of displayItems">
+                                <td>{{item.account_id?item.account_id:'-'}}</td>
+                                <td>{{item.account_fullname?item.account_fullname:'-'}}</td>
+                                <td>{{item.created_at * 1000 | date:'yyyy/MM/dd'}}</td>
+                                <td>{{item.type}}</td>
+                                <td>
+                                    <a class="btn btn-raised btn-round btn-sm" [class.btn-warning]="item.status=='todo'"
+                                       [class.btn-success]="item.status=='done'"
+                                       style="margin:0">{{item.status}}</a>
+                                </td>
+                                <td>
+                                    <a class="info p-0" (click)="action(item)">
+                                        <i class="ft-settings font-medium-3 mr-2"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!--Extended Table Ends-->
